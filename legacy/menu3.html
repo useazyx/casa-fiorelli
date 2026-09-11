@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Menu</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #4caf50;
+      --background: ##f2f2f7;
+      --card-bg: #f7f2f8;
+      --footer-bg: white;
+      --text-dark: #333;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f2f2f7;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    h3 {
+      color: #a33329;
+    }
+
+    header {
+      background: white;
+      display: flex;
+      justify-content: start;
+      align-items: center;
+      padding: 0 20px;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      font-weight: bold;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      margin-right: auto;
+      margin-top: 0.2rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .logo img {
+      max-width: 150px;
+      max-height: 50px;
+      object-fit: contain;
+    }
+
+    .flogo {
+      font-weight: bold;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      margin-right: auto;
+    }
+
+    .flogo img {
+      max-width: 300px;
+      max-height: 100px;
+      object-fit: contain;
+    }
+
+    nav {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: black;
+      font-size: 1rem;
+    }
+
+    .btn {
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    main {
+      padding: 2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+      flex-grow: 1;
+    }
+
+    nav a:not(.btn):not(:has(span)) {
+      position: relative;
+      display: inline-block;
+      overflow: hidden;
+    }
+
+    nav a:not(.btn):not(:has(span))::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: black;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+
+    nav a:not(.btn):not(:has(span)):hover::after {
+      transform: scaleX(1);
+    }
+
+    nav a:not(.btn):not(:has(span)):not(:hover)::after {
+      transform-origin: right;
+    }
+
+    .btn {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .pratos {
+      padding: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2.5rem;
+      justify-content: center;
+    }
+
+    .card {
+      display: flex;
+      flex-direction: row;
+      background: #E3DDE0;
+      padding: 1rem;
+      border-radius: 12px;
+      gap: 1rem;
+      max-width: 600px;
+      width: 100%;
+      max-height: 300px;
+      box-sizing: border-box;
+      align-items: center;
+    }
+
+    .card .foto {
+      flex: 0 0 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card .foto img {
+      width: 200px;
+      height: auto;
+      border-radius: 8px;
+    }
+
+    .card .descricao {
+      flex: 1;
+      padding: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .preco {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: bold;
+      font-size: 1.1rem;
+      color: #b71c1c;
+    }
+
+    .card .descricao h3 {
+      margin-bottom: 0.5rem;
+      font-size: 1.2rem;
+    }
+
+    .card .descricao p {
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+    }
+
+    .card .descricao .btn {
+      align-self: flex-end;
+    }
+
+    .btn a {
+      text-decoration: none;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 1rem;
+    }
+
+    footer {
+      background: white;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      padding: 2rem;
+      gap: 2rem;
+    }
+
+    footer div {
+      min-width: 200px;
+    }
+
+    footer p {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+      color: black;
+    }
+
+    footer a {
+      text-decoration: none;
+      color: black;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .carrinho-item {
+        flex-direction: column;
+      }
+
+      .foto,
+      .descricao {
+        flex: 1 1 100%;
+      }
+    }
+
+
+    nav a.btn[href*="reserva"] {
+      background: none !important;
+      color: #4caf50 !important;
+      border: 1px solid #4caf50 !important;
+      border-radius: 25px !important;
+      padding: 0.5rem 1.25rem !important;
+      font-size: 1rem !important;
+      cursor: pointer !important;
+      transition: background-color 0.2s ease, color 0.2s ease;
+      display: inline-block;
+      text-decoration: none;
+    }
+
+    nav a.btn[href*="reserva"]:hover {
+      background-color: #388e3c !important;
+      color: white !important;
+    }
+
+
+    .card .descricao .btn,
+    .card1 .descricao1 .btn {
+      align-self: flex-end;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .card .descricao .btn:hover,
+    .card1 .descricao1 .btn:hover {
+      background-color: #388e3c;
+    }
+
+    .card .descricao .btn a,
+    .card1 .descricao1 .btn a {
+      color: white;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="logo"><img src="imagens/logo.cf.ext.png" alt="Logo"></div>
+    <nav>
+      <a href="home.html">Nossa Casa</a>
+      <a href="menu.html">Menu</a>
+      <a href="contato.html">Contato</a>
+      <a href="reserva.html" class="btn">Faça já sua reserva!</a>
+      <a href="perfil.html"><span class="icone" data-icone="perfil"></span></a>
+      <a href="https://www.instagram.com/casa.fiorelli/"><span class="icone" data-icone="instagram"></span></a>
+      <a href="carrinho.html"><span class="icone" data-icone="carrinho"></span></a>
+    </nav>
+  </header>
+  <main>
+    <section class="pratos">
+
+      <div class="card">
+        <div class="foto"><img src="imagens/coca.png" alt="Coca cola lata"></div>
+        <div class="descricao">
+          <h3>Coca cola lata</h3>
+          <p>A tradicional e inconfundível Coca-Cola, com seu sabor original e refrescante. Perfeita para acompanhar
+            qualquer momento, é a escolha clássica dos amantes de um bom refrigerante.</p>
+          <div class="preco">R$7,00<button class="btn">Adicionar ao carrinho</button></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="foto"><img src="imagens/cocazero.png" alt="Coca cola sem açucar"></div>
+        <div class="descricao">
+          <h3>Coca cola sem açucar lata</h3>
+          <p>Todo o sabor marcante da Coca-Cola, mas sem açúcar. Ideal para quem busca uma opção mais leve sem abrir mão
+            do prazer de um refrigerante gelado.</p>
+          <div class="preco">R$7,00<button class="btn">Adicionar ao carrinho</button></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="foto"><img src="imagens/fanta.png" alt="Fanta laranja lata"></div>
+        <div class="descricao">
+          <h3>Fanta laranja lata</h3>
+          <p>Com um sabor vibrante e natural de laranja, Fanta Laranja é sinônimo de alegria e refrescância. Excelente
+            para dias quentes ou momentos descontraídos.</p>
+          <div class="preco">R$7,00<button class="btn">Adicionar ao carrinho</button></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="foto"><img src="imagens/fantauva.png" alt="Fanta uva lata"></div>
+        <div class="descricao">
+          <h3>Fanta uva lata</h3>
+          <p>Refrescante e divertida, Fanta Uva tem um sabor intenso de uva e um toque adocicado que agrada a todas as
+            idades. Uma explosão de sabor a cada gole.</p>
+          <div class="preco">R$7,00<button class="btn">Adicionar ao carrinho</button></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="foto"><img src="imagens/guarana.png" alt="Guaraná Antártica lata"></div>
+        <div class="descricao">
+          <h3>Guaraná Antártica lata </h3>
+          <p>O autêntico sabor brasileiro! Feito com extrato natural da fruta, o Guaraná é levemente adocicado, com um
+            toque único que conquista gerações.</p>
+          <div class="preco">R$7,00<button class="btn">Adicionar ao carrinho</button></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="foto"><img src="imagens/guaranazero.png" alt="Guaraná Antártica sem açucar lata "></div>
+        <div class="descricao">
+          <h3>Guaraná Antártica sem açucar lata</h3>
+          <p>Todo o sabor do tradicional Guaraná, mas sem adição de açúcar. Uma escolha equilibrada e saborosa para quem
+            busca uma alternativa mais saudável.</p>
+          <div class="preco">R$7,00<button class="btn">Adicionar ao carrinho</button></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="foto"><img src="imagens/sprite.png" alt="sprite lata "></div>
+        <div class="descricao">
+          <h3>Sprite lata </h3>
+          <p>Refrescante e cítrico, Sprite combina limão e lima com um gás leve e revigorante. Perfeito para matar a
+            sede com leveza e sabor.</p>
+          <div class="preco">R$7,00<button class="btn">Adicionar ao carrinho</button></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="foto"><img src="imagens/spritezero.png" alt="sprite sem açucar lata "></div>
+        <div class="descricao">
+          <h3>Sprite sem açucar lata</h3>
+          <p>A mesma refrescância de Sprite, agora sem açúcar. Uma bebida leve e cítrica para quem busca equilíbrio sem
+            abrir mão do sabor.</p>
+          <div class="preco">R$7,00<button class="btn">Adicionar ao carrinho</button></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="foto"><img src="imagens/coca2l.png" alt="Coca cola 2l"></div>
+        <div class="descricao">
+          <h3>Coca cola de 2 litros</h3>
+          <p>A clássica Coca-Cola na versão ideal para compartilhar. Com 2 litros, é perfeita para reunir amigos e
+            família com o sabor inconfundível que todo mundo ama.</p>
+          <div class="preco">R$15,00<button class="btn">Adicionar ao carrinho</button></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="foto"><img src="imagens/coca2lzero.png" alt="Guaraná Antártica 2l"></div>
+        <div class="descricao">
+          <h3>Coca cola sem açucar de 2 litros</h3>
+          <p>A refrescância e o sabor marcante da Coca-Cola, agora sem açúcar e no tamanho ideal para dividir com quem
+            você gosta. Opção leve e sem culpa!</p>
+          <div class="preco">R$15,00<button class="btn">Adicionar ao carrinho</button></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="foto"><img src="imagens/fanta2l.png" alt="Fanta laranja de 2 litros"></div>
+        <div class="descricao">
+          <h3>Fanta laranja de 2 litros </h3>
+          <p>Com 2 litros de pura refrescância, Fanta Laranja é a pedida certa para encontros em grupo. Sabor vibrante e
+            frutado para animar qualquer momento.</p>
+          <div class="preco">R$12,00<button class="btn">Adicionar ao carrinho</button></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="foto"><img src="imagens/fantauva2l.png" alt="Fanta uva de 2 litros"></div>
+        <div class="descricao">
+          <h3>Fanta uva de 2 litros</h3>
+          <p>Muito mais sabor de uva para compartilhar! Fanta Uva 2 litros traz toda a diversão e intensidade que a
+            ocasião pede.</p>
+          <div class="preco">R$12,00<button class="btn">Adicionar ao carrinho</button></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="foto"><img src="imagens/sprite2l.png" alt="Sprite de 2 litros "></div>
+        <div class="descricao">
+          <h3>Sprite de 2 litros </h3>
+          <p>A refrescância do limão com o gás na medida certa em uma versão 2 litros. Sprite é leve, cítrica e perfeita
+            para dividir.</p>
+          <div class="preco">R$12,00<button class="btn">Adicionar ao carrinho</button></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="foto"><img src="imagens/guarana2l.png" alt="Guaraná Antártica 2l"></div>
+        <div class="descricao">
+          <h3>Guaraná Antártica de 2 litros</h3>
+          <p>O verdadeiro sabor brasileiro agora em tamanho família. Guaraná 2 litros é perfeito para refrescar
+            encontros, churrascos e momentos especiais.</p>
+          <div class="preco">R$14,00<button class="btn">Adicionar ao carrinho</button></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="foto"><img src="imagens/pratos.png" alt="Pratos"></div>
+        <div class="descricao">
+          <h3>Pratos</h3>
+          <p>Veja as nossas opções de pratos!</p>
+          <button class="btn"><a href="menu.html">Ver opções</a></button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="foto"><img src="imagens/combos.png" alt="Combos"></div>
+        <div class="descricao">
+          <h3>Combos</h3>
+          <p>Veja as nossas opções de combos!</p>
+          <button class="btn"><a href="menu2.html">Ver opções</a></button>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="flogo"><a href="menu3.html"><img src="imagens/logo.cf.png" alt="Logo"></a></div>
+    <div>
+      <p><span class="icone" data-icone="telefone"></span> 12 40028922</p>
+      <p><a href="https://www.instagram.com/casa.fiorelli/"><span class="icone" data-icone="instagram"></span>
+          Instagram</a></p>
+      <p><a href="https://x.com/CasaFiorelli"><span class="icone" data-icone="x"></span>
+          X (Twitter)</a>
+    </div>
+    <div>
+      <p><span class="icone" data-icone="horas"></span> Seg a Sex <br>10:00 - 19:00</p>
+      <p><span class="icone" data-icone="local"></span> Avenida Dom Pedro, 202</p>
+      <p><a href="contato.html"><span class="icone" data-icone="ajuda"></span> Precisa de ajuda?</a></p>
+    </div>
+  </footer>
+
+
+
+
+  <template id="local">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+      <path fill="currentColor"
+        d="M12 3a7 7 0 0 0-7 7c0 2.862 1.782 5.623 3.738 7.762A26 26 0 0 0 12 20.758q.262-.201.615-.49a26 26 0 0 0 2.647-2.504C17.218 15.623 19 12.863 19 10a7 7 0 0 0-7-7m0 20.214l-.567-.39l-.003-.002l-.006-.005l-.02-.014l-.075-.053l-.27-.197a28 28 0 0 1-3.797-3.44C5.218 16.875 3 13.636 3 9.999a9 9 0 0 1 18 0c0 3.637-2.218 6.877-4.262 9.112a28 28 0 0 1-3.796 3.44a17 17 0 0 1-.345.251l-.021.014l-.006.005l-.002.001zM12 8a2 2 0 1 0 0 4a2 2 0 0 0 0-4m-4 2a4 4 0 1 1 8 0a4 4 0 0 1-8 0" />
+    </svg>
+  </template>
+
+  <template id="telefone">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+      <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2" />
+    </svg>
+  </template>
+
+  <template id="ajuda">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+      <g fill="none">
+        <path
+          d="m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z" />
+        <path fill="currentColor"
+          d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2m0 2a8 8 0 1 0 0 16a8 8 0 0 0 0-16m0 12a1 1 0 1 1 0 2a1 1 0 0 1 0-2m0-9.5a3.625 3.625 0 0 1 1.348 6.99a.8.8 0 0 0-.305.201c-.044.05-.051.114-.05.18L13 14a1 1 0 0 1-1.993.117L11 14v-.25c0-1.153.93-1.845 1.604-2.116a1.626 1.626 0 1 0-2.229-1.509a1 1 0 1 1-2 0A3.625 3.625 0 0 1 12 6.5" />
+      </g>
+    </svg>
+  </template>
+
+  <template id="horas">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+      <g fill="none">
+        <path
+          d="m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z" />
+        <path fill="currentColor"
+          d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2m0 2a8 8 0 1 0 0 16a8 8 0 0 0 0-16m0 2a1 1 0 0 1 .993.883L13 7v4.586l2.707 2.707a1 1 0 0 1-1.32 1.497l-.094-.083l-3-3a1 1 0 0 1-.284-.576L11 12V7a1 1 0 0 1 1-1" />
+      </g>
+    </svg>
+  </template>
+
+  <template id="x">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+      <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+        d="m3 21l7.548-7.548M21 3l-7.548 7.548m0 0L8 3H3l7.548 10.452m2.904-2.904L21 21h-5l-5.452-7.548"
+        color="currentColor" />
+    </svg>
+  </template>
+
+  <template id="instagram">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+      <path fill="currentColor"
+        d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4zm9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8A1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5a5 5 0 0 1-5 5a5 5 0 0 1-5-5a5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3a3 3 0 0 0 3 3a3 3 0 0 0 3-3a3 3 0 0 0-3-3" />
+    </svg>
+  </template>
+
+  <template id="perfil">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+      <path fill="currentColor"
+        d="M5.85 17.1q1.275-.975 2.85-1.537T12 15t3.3.563t2.85 1.537q.875-1.025 1.363-2.325T20 12q0-3.325-2.337-5.663T12 4T6.337 6.338T4 12q0 1.475.488 2.775T5.85 17.1M12 13q-1.475 0-2.488-1.012T8.5 9.5t1.013-2.488T12 6t2.488 1.013T15.5 9.5t-1.012 2.488T12 13m0 9q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22" />
+    </svg>
+  </template>
+
+  <template id="carrinho">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+      <path fill="currentColor"
+        d="M21.822 7.431A1 1 0 0 0 21 7H7.333L6.179 4.23A1.99 1.99 0 0 0 4.333 3H2v2h2.333l4.744 11.385A1 1 0 0 0 10 17h8c.417 0 .79-.259.937-.648l3-8a1 1 0 0 0-.115-.921M17.307 15h-6.64l-2.5-6h11.39z" />
+      <circle cx="10.5" cy="19.5" r="1.5" fill="currentColor" />
+      <circle cx="17.5" cy="19.5" r="1.5" fill="currentColor" />
+    </svg>
+  </template>
+  <script>
+    document.querySelectorAll('[data-icone]').forEach(el => {
+      const id = el.dataset.icone;
+      const template = document.getElementById(id);
+      if (template) {
+        el.innerHTML = template.innerHTML;
+      }
+    });
+  </script>
+</body>
+
+</html>
