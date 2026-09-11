@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cadastro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: url('imagens/fundo.png') no-repeat center center fixed;
+      background-size: cover;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      backdrop-filter: blur(5px);
+      z-index: 0;
+    }
+
+    .form-container {
+      position: relative;
+      z-index: 1;
+      max-width: 400px;
+      margin: 10vh auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.75rem 0.75rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background: none;
+      box-sizing: border-box;
+    }
+
+    .form-group label {
+      position: absolute;
+      left: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: white;
+      padding: 0 0.25rem;
+      color: #777;
+      font-size: 1rem;
+      pointer-events: none;
+      transition: all 0.2s ease;
+    }
+
+    .form-group input:focus+label,
+    .form-group input:not(:placeholder-shown)+label {
+      top: -0.6rem;
+      left: 0.6rem;
+      font-size: 0.8rem;
+      color: #4caf50;
+      transform: none;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 1rem;
+      font-size: 1rem;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .btn a {
+      text-decoration: none;
+      color: white;
+      display: block;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+    }
+
+    .icone {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .extra {
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .extra a {
+      color: #4caf50;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="overlay"></div>
+
+  <div class="form-container">
+    <div class="icone" data-icone="perfil"></div>
+    <h1>Crie a sua Conta</h1>
+    <form>
+      <div class="form-group">
+        <input type="text" id="nome" placeholder=" " required />
+        <label for="nome">Seu nome completo</label>
+      </div>
+
+      <div class="form-group">
+        <input type="email" id="email" placeholder=" " required />
+        <label for="email">Informe seu e-mail</label>
+      </div>
+
+      <div class="form-group">
+        <input type="password" id="senha" placeholder=" " required />
+        <label for="senha">Informe sua senha</label>
+      </div>
+
+      <div class="btn">
+        <a href="home.html">Cadastrar</a>
+      </div>
+
+      <div class="extra">
+        <p>Já tem conta? <a href="login.html">Faça login</a></p>
+      </div>
+    </form>
+  </div>
+
+  <template id="perfil">
+    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24">
+      <path fill="currentColor"
+        d="M5.85 17.1q1.275-.975 2.85-1.537T12 15t3.3.563t2.85 1.537q.875-1.025 1.363-2.325T20 12q0-3.325-2.337-5.663T12 4T6.337 6.338T4 12q0 1.475.488 2.775T5.85 17.1M12 13q-1.475 0-2.488-1.012T8.5 9.5t1.013-2.488T12 6t2.488 1.013T15.5 9.5t-1.012 2.488T12 13m0 9q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22" />
+    </svg>
+  </template>
+  <script>
+    document.querySelectorAll('[data-icone]').forEach(el => {
+      const id = el.dataset.icone;
+      const template = document.getElementById(id);
+      if (template) {
+        el.innerHTML = template.innerHTML;
+      }
+    });
+  </script>
+</body>
+
+</html>
