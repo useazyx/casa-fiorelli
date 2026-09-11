@@ -1,6 +1,6 @@
 # Créditos das imagens
 
-## Da marca (projeto original, preservado em `legacy/imagens`)
+## Da marca (site original da Casa Fiorelli)
 Todas as fotos de pratos, combos, bebidas, as artes dos destaques da semana, o logo
 e a foto do salão são do material original da Casa Fiorelli. Foram apenas
 redimensionadas e convertidas para WebP (24 MB → 2 MB).

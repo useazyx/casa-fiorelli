@@ -1,8 +1,8 @@
 # Casa Fiorelli
 
 Site da Casa Fiorelli, restaurante italiano de Taubaté. Começou como um site estático em HTML e
-Bootstrap (guardado em `legacy/`) e eu refiz como aplicação completa: cardápio, carrinho,
-checkout, reserva de mesa e conta de cliente, com API e banco de dados de verdade.
+Bootstrap e eu refiz como aplicação completa: cardápio, carrinho, checkout, reserva de mesa e
+conta de cliente, com API e banco de dados de verdade.
 
 ## Tecnologias
 

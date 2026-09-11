@@ -1,8 +1,8 @@
 # Casa Fiorelli
 
 Website for Casa Fiorelli, an Italian restaurant in Taubaté, Brazil. It started as a static
-HTML and Bootstrap site (kept in `legacy/`) and I rebuilt it as a full app: menu, cart,
-checkout, table reservations and customer accounts, with a real API and database behind it.
+HTML and Bootstrap site and I rebuilt it as a full app: menu, cart, checkout, table
+reservations and customer accounts, with a real API and database behind it.
 
 The site itself is in Portuguese. [Leia em português](README.pt-BR.md).
 
