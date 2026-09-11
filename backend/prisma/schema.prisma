@@ -1,0 +1,338 @@
+// Casa Fiorelli data model
+// The vocabulary of the original static site is preserved: dishes (pratos),
+// combos, drinks (bebidas), reservations, orders and profile data.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  CUSTOMER
+  ADMIN
+}
+
+enum Weekday {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PREPARING
+  DELIVERING
+  COMPLETED
+  CANCELLED
+}
+
+enum PaymentMethodType {
+  CREDIT_CARD
+  DEBIT_CARD
+  PIX
+  CASH
+}
+
+enum ReservationStatus {
+  REQUESTED
+  CONFIRMED
+  SEATED
+  CANCELLED
+}
+
+enum DiscountType {
+  PERCENTAGE
+  FIXED
+}
+
+model User {
+  id           String   @id @default(uuid())
+  name         String
+  email        String   @unique
+  phone        String?
+  passwordHash String
+  role         Role     @default(CUSTOMER)
+  avatarUrl    String?
+  balance      Decimal  @default(0) @db.Decimal(10, 2)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  addresses      Address[]
+  cart           Cart?
+  orders         Order[]
+  reservations   Reservation[]
+  notifications  Notification[]
+  paymentMethods PaymentMethod[]
+  coupons        UserCoupon[]
+  passwordResets PasswordReset[]
+
+  @@map("users")
+}
+
+model PasswordReset {
+  id        String    @id @default(uuid())
+  userId    String
+  token     String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("password_resets")
+}
+
+model Address {
+  id         String  @id @default(uuid())
+  userId     String
+  label      String
+  street     String
+  number     String
+  complement String?
+  district   String
+  city       String
+  state      String  @db.Char(2)
+  zipCode    String
+  isDefault  Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  orders Order[]
+
+  @@index([userId])
+  @@map("addresses")
+}
+
+model PaymentMethod {
+  id        String            @id @default(uuid())
+  userId    String
+  type      PaymentMethodType
+  label     String
+  holder    String?
+  last4     String?           @db.Char(4)
+  expMonth  Int?
+  expYear   Int?
+  isDefault Boolean           @default(false)
+  createdAt DateTime          @default(now())
+
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  orders Order[]
+
+  @@index([userId])
+  @@map("payment_methods")
+}
+
+model Category {
+  id          String @id @default(uuid())
+  slug        String @unique
+  name        String
+  tagline     String
+  description String
+  imageUrl    String
+  position    Int    @default(0)
+
+  items MenuItem[]
+
+  @@map("categories")
+}
+
+model MenuItem {
+  id          String   @id @default(uuid())
+  categoryId  String
+  slug        String   @unique
+  name        String
+  description String
+  /// The recipe story shown in the dish modal.
+  story       String?
+  price       Decimal  @db.Decimal(10, 2)
+  imageUrl    String
+  available   Boolean  @default(true)
+  featured    Boolean  @default(false)
+  vegetarian  Boolean  @default(false)
+  serves      Int      @default(1)
+  prepMinutes Int      @default(20)
+  tags        String[] @default([])
+  position    Int      @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  category   Category    @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  cartItems  CartItem[]
+  orderItems OrderItem[]
+
+  @@index([categoryId])
+  @@map("menu_items")
+}
+
+model Promotion {
+  id          String  @id @default(uuid())
+  weekday     Weekday @unique
+  title       String
+  subtitle    String
+  description String
+  imageUrl    String
+  active      Boolean @default(true)
+  position    Int     @default(0)
+
+  @@map("promotions")
+}
+
+model Cart {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user  User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items CartItem[]
+
+  @@map("carts")
+}
+
+model CartItem {
+  id         String   @id @default(uuid())
+  cartId     String
+  menuItemId String
+  quantity   Int      @default(1)
+  notes      String?
+  createdAt  DateTime @default(now())
+
+  cart     Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  menuItem MenuItem @relation(fields: [menuItemId], references: [id], onDelete: Cascade)
+
+  @@unique([cartId, menuItemId])
+  @@index([cartId])
+  @@map("cart_items")
+}
+
+model Coupon {
+  id          String       @id @default(uuid())
+  code        String       @unique
+  description String
+  type        DiscountType
+  value       Decimal      @db.Decimal(10, 2)
+  minSubtotal Decimal      @default(0) @db.Decimal(10, 2)
+  expiresAt   DateTime?
+  active      Boolean      @default(true)
+  createdAt   DateTime     @default(now())
+
+  users  UserCoupon[]
+  orders Order[]
+
+  @@map("coupons")
+}
+
+model UserCoupon {
+  id       String    @id @default(uuid())
+  userId   String
+  couponId String
+  usedAt   DateTime?
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  coupon Coupon @relation(fields: [couponId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, couponId])
+  @@map("user_coupons")
+}
+
+model Order {
+  id              String      @id @default(uuid())
+  code            String      @unique
+  userId          String
+  addressId       String?
+  paymentMethodId String?
+  couponId        String?
+  status          OrderStatus @default(PENDING)
+  subtotal        Decimal     @db.Decimal(10, 2)
+  deliveryFee     Decimal     @default(0) @db.Decimal(10, 2)
+  discount        Decimal     @default(0) @db.Decimal(10, 2)
+  total           Decimal     @db.Decimal(10, 2)
+  notes           String?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  address       Address?       @relation(fields: [addressId], references: [id], onDelete: SetNull)
+  paymentMethod PaymentMethod? @relation(fields: [paymentMethodId], references: [id], onDelete: SetNull)
+  coupon        Coupon?        @relation(fields: [couponId], references: [id], onDelete: SetNull)
+  items         OrderItem[]
+
+  @@index([userId])
+  @@map("orders")
+}
+
+model OrderItem {
+  id         String  @id @default(uuid())
+  orderId    String
+  menuItemId String?
+  /// Name, price and image are snapshotted so a menu edit never rewrites history.
+  name       String
+  imageUrl   String
+  unitPrice  Decimal @db.Decimal(10, 2)
+  quantity   Int
+  notes      String?
+
+  order    Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  menuItem MenuItem? @relation(fields: [menuItemId], references: [id], onDelete: SetNull)
+
+  @@index([orderId])
+  @@map("order_items")
+}
+
+model Reservation {
+  id        String            @id @default(uuid())
+  userId    String?
+  name      String
+  email     String
+  phone     String
+  date      DateTime          @db.Date
+  time      String
+  people    Int
+  notes     String?
+  status    ReservationStatus @default(REQUESTED)
+  createdAt DateTime          @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([date])
+  @@map("reservations")
+}
+
+model ContactMessage {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  subject   String?
+  message   String
+  handled   Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@map("contact_messages")
+}
+
+model Notification {
+  id        String    @id @default(uuid())
+  userId    String
+  title     String
+  body      String
+  readAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("notifications")
+}
